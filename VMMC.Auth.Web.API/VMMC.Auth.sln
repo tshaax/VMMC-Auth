@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMMC.Auth.Web.API", "VMMC.Auth.Web.API\VMMC.Auth.Web.API.csproj", "{D4BA972D-08AB-4A48-A252-0414C676C753}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VMMC.Auth.Web.API", "VMMC.Auth.Web.API\VMMC.Auth.Web.API.csproj", "{D4BA972D-08AB-4A48-A252-0414C676C753}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMMC.Auth.DataAccess", "VMMC.Auth.DataAccess\VMMC.Auth.DataAccess.csproj", "{E99150CA-C22C-4DB9-9880-966F6BFB3B0F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{D4BA972D-08AB-4A48-A252-0414C676C753}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D4BA972D-08AB-4A48-A252-0414C676C753}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D4BA972D-08AB-4A48-A252-0414C676C753}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E99150CA-C22C-4DB9-9880-966F6BFB3B0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E99150CA-C22C-4DB9-9880-966F6BFB3B0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E99150CA-C22C-4DB9-9880-966F6BFB3B0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E99150CA-C22C-4DB9-9880-966F6BFB3B0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
