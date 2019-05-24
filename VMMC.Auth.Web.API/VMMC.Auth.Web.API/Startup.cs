@@ -17,6 +17,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using VMMC.Auth.DataAccess;
 using VMMC.Auth.DataAccess.Models;
+using VMMC.Auth.Web.API.Data;
 
 namespace VMMC.Auth.Web.API
 {
@@ -80,8 +81,7 @@ namespace VMMC.Auth.Web.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env
-            , ApplicationDbContext dbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -91,8 +91,16 @@ namespace VMMC.Auth.Web.API
             {
                 app.UseHsts();
             }
-
-            DbSeedder.Seed(dbContext);
+                        
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                dbContext.Database.Migrate();
+                // Seed the Db.
+                DbSeedder.Seed(dbContext, roleManager, userManager);
+            }
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

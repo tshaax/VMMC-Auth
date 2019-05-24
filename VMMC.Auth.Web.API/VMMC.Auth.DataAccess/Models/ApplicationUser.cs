@@ -8,7 +8,6 @@ namespace VMMC.Auth.DataAccess.Models
     public class ApplicationUser : IdentityUser
     {
         public  int UserId { get; set; }
-        public string  Username { get; set; }
         public string  Email { get; set; }
         public string  DisplayName { get; set; }
         public int UserType { get; set; }

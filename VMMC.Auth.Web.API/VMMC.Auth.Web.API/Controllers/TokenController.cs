@@ -13,10 +13,12 @@ using VMMC.Auth.DataAccess.Models;
 using VMMC.Auth.DataAccess;
 using VMMC.Auth.Web.API.Models;
 using System.Text;
+using VMMC.Auth.Web.API.Data;
 
 namespace VMMC.Auth.Web.API.Controllers
 {
     [Route("api/v1/[Controller]")]
+    [ApiController]
     public class TokenController : Controller
     {
         private readonly ApplicationDbContext _DbContext;
@@ -34,6 +36,8 @@ namespace VMMC.Auth.Web.API.Controllers
             this._UserManager = userManager;
             this._Configuration = configuration;
         }
+        
+        [HttpPost("Auth")]
         public async Task<IActionResult> Jwt([FromBody] TokenRequestViewModel model)
         {
             if (model == null) return new StatusCodeResult(500);
