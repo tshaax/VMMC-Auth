@@ -37,6 +37,12 @@ namespace VMMC.Auth.Web.API.Controllers
             this._Configuration = configuration;
         }
         
+        /// <summary>
+        /// Get token to access the application
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+
         [HttpPost("Auth")]
         public async Task<IActionResult> Jwt([FromBody] TokenRequestViewModel model)
         {

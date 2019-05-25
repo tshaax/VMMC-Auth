@@ -1,7 +1,15 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <PlatformTarget>x64</PlatformTarget>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <DocumentationFile>.\VMMC.Auth.Web.API.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
@@ -10,8 +18,9 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.1.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="4.0.1" />
+    <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="4.0.1" />
   </ItemGroup>
 
   <ItemGroup>

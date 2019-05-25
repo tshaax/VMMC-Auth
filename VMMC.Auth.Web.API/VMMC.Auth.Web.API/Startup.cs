@@ -18,6 +18,9 @@ using Microsoft.IdentityModel.Tokens;
 using VMMC.Auth.DataAccess;
 using VMMC.Auth.DataAccess.Models;
 using VMMC.Auth.Web.API.Data;
+using Swashbuckle.AspNetCore.Swagger;
+using System.Reflection;
+using System.IO;
 
 namespace VMMC.Auth.Web.API
 {
@@ -37,6 +40,15 @@ namespace VMMC.Auth.Web.API
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", null);
+                // Set the comments path for the Swagger JSON and UI.
+                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+                var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
+                c.IncludeXmlComments(xmlPath);
+            });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
                 opts =>
@@ -83,6 +95,15 @@ namespace VMMC.Auth.Web.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseSwagger();
+
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "VMMC API v1");
+                c.RoutePrefix = string.Empty;
+            });
+
+     
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
