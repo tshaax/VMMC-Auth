@@ -44,7 +44,7 @@ namespace VMMC.Auth.Web.API.Data
                 UserName = "Admin",
                 Email = "tshaax@gmail.com",
                 CreatedDate = createdDate,
-                LastModified = lastModifiedDate
+                LastModifiedDate = lastModifiedDate
             };
 
             var user_Mobilazer = new ApplicationUser()
@@ -53,7 +53,7 @@ namespace VMMC.Auth.Web.API.Data
                 UserName = "Mobilazer",
                 Email = "tshaax@gmail.com",
                 CreatedDate = createdDate,
-                LastModified = lastModifiedDate
+                LastModifiedDate = lastModifiedDate
             };
 
             if (await userManager.FindByNameAsync(user_Admin.UserName) == null)

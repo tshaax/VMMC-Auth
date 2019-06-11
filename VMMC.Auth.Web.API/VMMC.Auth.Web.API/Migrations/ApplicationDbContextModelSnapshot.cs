@@ -15,7 +15,7 @@ namespace VMMC.Auth.Web.API.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "2.1.4-rtm-31024")
+                .HasAnnotation("ProductVersion", "2.1.11-servicing-32099")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -148,13 +148,13 @@ namespace VMMC.Auth.Web.API.Migrations
 
                     b.Property<bool>("EmailConfirmed");
 
-                    b.Property<DateTime>("LastModified");
+                    b.Property<int>("Flags");
+
+                    b.Property<DateTime>("LastModifiedDate");
 
                     b.Property<bool>("LockoutEnabled");
 
                     b.Property<DateTimeOffset?>("LockoutEnd");
-
-                    b.Property<string>("ModifiedBy");
 
                     b.Property<string>("NormalizedEmail")
                         .HasMaxLength(256);
@@ -162,7 +162,7 @@ namespace VMMC.Auth.Web.API.Migrations
                     b.Property<string>("NormalizedUserName")
                         .HasMaxLength(256);
 
-                    b.Property<string>("Password");
+                    b.Property<string>("Notes");
 
                     b.Property<string>("PasswordHash");
 
@@ -174,12 +174,10 @@ namespace VMMC.Auth.Web.API.Migrations
 
                     b.Property<bool>("TwoFactorEnabled");
 
-                    b.Property<int>("UserId");
+                    b.Property<int>("Type");
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256);
-
-                    b.Property<int>("UserType");
 
                     b.HasKey("Id");
 
@@ -191,7 +189,33 @@ namespace VMMC.Auth.Web.API.Migrations
                         .HasName("UserNameIndex")
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
-                    b.ToTable("AspNetUsers");
+                    b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("VMMC.Auth.DataAccess.Models.Token", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("ClientId")
+                        .IsRequired();
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<int>("Type");
+
+                    b.Property<string>("UserId")
+                        .IsRequired();
+
+                    b.Property<string>("Value")
+                        .IsRequired();
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Tokens");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -235,6 +259,14 @@ namespace VMMC.Auth.Web.API.Migrations
                 {
                     b.HasOne("VMMC.Auth.DataAccess.Models.ApplicationUser")
                         .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VMMC.Auth.DataAccess.Models.Token", b =>
+                {
+                    b.HasOne("VMMC.Auth.DataAccess.Models.ApplicationUser", "User")
+                        .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

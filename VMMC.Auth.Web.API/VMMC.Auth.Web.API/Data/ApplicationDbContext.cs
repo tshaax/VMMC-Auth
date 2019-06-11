@@ -15,9 +15,18 @@ namespace VMMC.Auth.Web.API.Data
 
         }
 
+        public DbSet<Token> Tokens { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<ApplicationUser>().ToTable("Users");
+            modelBuilder.Entity<ApplicationUser>().HasMany(u => u.Tokens).WithOne(t => t.User);
+
+            modelBuilder.Entity<Token>().ToTable("Tokens");
+            modelBuilder.Entity<Token>().Property(i => i.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Token>().HasOne(t => t.User).WithMany(u => u.Tokens);
+
 
         }
     }

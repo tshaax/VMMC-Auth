@@ -4,12 +4,5 @@
         <name>VMMC.Auth.Web.API</name>
     </assembly>
     <members>
-        <member name="M:VMMC.Auth.Web.API.Controllers.TokenController.Jwt(VMMC.Auth.Web.API.Models.TokenRequestViewModel)">
-            <summary>
-            Get token to access the application
-            </summary>
-            <param name="model"></param>
-            <returns></returns>
-        </member>
     </members>
 </doc>

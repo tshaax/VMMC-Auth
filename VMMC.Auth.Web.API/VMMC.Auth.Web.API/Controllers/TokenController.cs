@@ -17,45 +17,131 @@ using VMMC.Auth.Web.API.Data;
 
 namespace VMMC.Auth.Web.API.Controllers
 {
-    [Route("api/v1/[Controller]")]
-    [ApiController]
-    public class TokenController : Controller
+    public class TokenController : BaseApiController
     {
-        private readonly ApplicationDbContext _DbContext;
-        private readonly RoleManager<IdentityRole> _RoleManager;
-        private readonly UserManager<ApplicationUser> _UserManager;
-        private readonly IConfiguration _Configuration;
+        #region Private Members
+        #endregion Private Members
 
-        public TokenController(ApplicationDbContext dbContext,
-                RoleManager<IdentityRole> roleManager,
-                UserManager<ApplicationUser> userManager,
-                IConfiguration configuration)
+        #region Constructor
+        public TokenController(
+            ApplicationDbContext context,
+            RoleManager<IdentityRole> roleManager,
+            UserManager<ApplicationUser> userManager,
+            IConfiguration configuration
+            )
+            : base(context, roleManager, userManager, configuration)
         {
-            this._DbContext = dbContext;
-            this._RoleManager = roleManager;
-            this._UserManager = userManager;
-            this._Configuration = configuration;
         }
-        
-        /// <summary>
-        /// Get token to access the application
-        /// </summary>
-        /// <param name="model"></param>
-        /// <returns></returns>
+        #endregion
 
         [HttpPost("Auth")]
-        public async Task<IActionResult> Jwt([FromBody] TokenRequestViewModel model)
+        public async Task<IActionResult> Jwt([FromBody]TokenRequestViewModel model)
         {
+            // return a generic HTTP Status 500 (Server Error)
+            // if the client payload is invalid.
             if (model == null) return new StatusCodeResult(500);
+
             switch (model.grant_type)
             {
                 case "password":
                     return await GetToken(model);
+                case "refresh_token":
+                    return await RefreshToken(model);
                 default:
                     // not supported - return a HTTP 401 (Unauthorized)
                     return new UnauthorizedResult();
             }
-          
+        }
+
+        private async Task<IActionResult> RefreshToken(TokenRequestViewModel model)
+        {
+            try
+            {
+                // check if the received refreshToken exists for the given clientId
+                var rt = DbContext.Tokens.FirstOrDefault(t => t.Value == model.refresh_token && t.ClientId == model.client_id);
+
+                if (rt == null)
+                {
+                    return new UnauthorizedResult();
+                }
+
+                var user = await UserManager.FindByIdAsync(rt.UserId);
+
+                if (user == null)
+                {
+                    return new UnauthorizedResult();
+                }
+
+                // generate a new refresh token
+                var rtNew = CreateRefreshToken(rt.ClientId, rt.UserId);
+
+                // invalidate the old refresh token (by deleting it)
+                DbContext.Tokens.Remove(rt);
+
+                // add the new refresh token
+                DbContext.Tokens.Add(rtNew);
+
+                // persist changes in the DB
+                DbContext.SaveChanges();
+
+                // create a new access token...
+                var response = CreateAccessToken(rtNew.UserId, rtNew.Value);
+
+                // ... and send it to the client
+                return Json(response);
+            }
+            catch
+            {
+                return new UnauthorizedResult();
+            }
+        }
+
+        private Token CreateRefreshToken(string clientId, string userId)
+        {
+            return new Token()
+            {
+                ClientId = clientId,
+                UserId = userId,
+                Type = 0,
+                Value = Guid.NewGuid().ToString("N"),
+                CreatedDate = DateTime.UtcNow
+            };
+        }
+
+        private TokenResponseViewModel CreateAccessToken(string userId, string refreshToken)
+        {
+            DateTime now = DateTime.UtcNow;
+
+            // add the registered claims for JWT (RFC7519).
+            // For more info, see https://tools.ietf.org/html/rfc7519#section-4.1
+            var claims = new[] {
+                new Claim(JwtRegisteredClaimNames.Sub, userId),
+                new Claim(JwtRegisteredClaimNames.Jti,
+                  Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Iat,
+                    new DateTimeOffset(now).ToUnixTimeSeconds().ToString())
+                // TODO: add additional claims here
+            };
+
+            var tokenExpirationMins = Configuration.GetValue<int>("Auth:Jwt:TokenExpirationInMinutes");
+            var issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Auth:Jwt:Key"]));
+
+            var token = new JwtSecurityToken(
+                issuer: Configuration["Auth:Jwt:Issuer"],
+                audience: Configuration["Auth:Jwt:Audience"],
+                claims: claims,
+                notBefore: now,
+                expires: now.Add(TimeSpan.FromMinutes(tokenExpirationMins)),
+                signingCredentials: new SigningCredentials(issuerSigningKey, SecurityAlgorithms.HmacSha256)
+            );
+            var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
+
+            return new TokenResponseViewModel()
+            {
+                token = encodedToken,
+                expiration = tokenExpirationMins,
+                refresh_token = refreshToken
+            };
         }
 
         private async Task<IActionResult> GetToken(TokenRequestViewModel model)
@@ -63,47 +149,30 @@ namespace VMMC.Auth.Web.API.Controllers
             try
             {
                 // check if there's an user with the given username
-                var user = await this._UserManager.FindByNameAsync(model.username);
+                var user = await UserManager.FindByNameAsync(model.username);
                 // fallback to support e-mail address instead of username
-
                 if (user == null && model.username.Contains("@"))
-                    user = await this._UserManager.FindByEmailAsync(model.username);
+                    user = await UserManager.FindByEmailAsync(model.username);
 
-                if (user == null || !await this._UserManager.CheckPasswordAsync(user, model.password))
+
+                if (user == null || !await UserManager.CheckPasswordAsync(user, model.password))
                 {
                     // user does not exists or password mismatch
                     return new UnauthorizedResult();
                 }
-                // username & password matches: create and return the  Jwt token.
-                DateTime now = DateTime.UtcNow;
-                // add the registered claims for JWT (RFC7519)./ For more info, see  https://tools.ietf.org/html/rfc7519#section-4.1
-                var claims = new[] {
-                    new Claim(JwtRegisteredClaimNames.Sub, user.Id),
-                    new Claim(JwtRegisteredClaimNames.Jti,
-                    Guid.NewGuid().ToString()),
-                    new Claim(JwtRegisteredClaimNames.Iat,
-                    new
-                    DateTimeOffset(now).ToUnixTimeSeconds().ToString())
-                                        // TODO: add additional claims here
-                };
-                               
-                var tokenExpirationMins = this._Configuration.GetValue<int>("Auth:Jwt:TokenExpirationInMinutes");
-                var issuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(this._Configuration["Auth:Jwt:Key"]));
-                var token = new JwtSecurityToken(issuer: this._Configuration["Auth:Jwt:Issuer"]
-                    ,audience: this._Configuration["Auth:Jwt:Audience"],
-                claims: claims,
-                notBefore: now,
-                expires: now.Add(TimeSpan.FromMinutes(tokenExpirationMins)),
-                signingCredentials: new SigningCredentials(issuerSigningKey,SecurityAlgorithms.HmacSha256));
 
-                var encodedToken = new JwtSecurityTokenHandler().WriteToken(token);
-                // build & return the response
-                var response = new TokenResponseViewModel()
-                {
-                    token = encodedToken,
-                    expiration = tokenExpirationMins
-                };
-                return Json(response);
+                // username & password matches: create and return the Jwt token.
+
+                // username & password matches: create the refresh token
+                var rt = CreateRefreshToken(model.client_id, user.Id);
+
+                // add the new refresh token to the DB
+                DbContext.Tokens.Add(rt);
+                DbContext.SaveChanges();
+
+                // create & return the access token
+                var t = CreateAccessToken(user.Id, rt.Value);
+                return Json(t);
             }
             catch (Exception ex)
             {
@@ -111,4 +180,6 @@ namespace VMMC.Auth.Web.API.Controllers
             }
         }
     }
-} 
+
+
+}
