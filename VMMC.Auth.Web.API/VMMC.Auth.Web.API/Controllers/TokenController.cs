@@ -14,9 +14,12 @@ using VMMC.Auth.DataAccess;
 using VMMC.Auth.Web.API.Models;
 using System.Text;
 using VMMC.Auth.Web.API.Data;
+using Microsoft.AspNetCore.Cors;
+using VMMC.Auth.Web.API.Models.Metadata;
 
 namespace VMMC.Auth.Web.API.Controllers
 {
+ 
     public class TokenController : BaseApiController
     {
         #region Private Members
@@ -34,6 +37,12 @@ namespace VMMC.Auth.Web.API.Controllers
         }
         #endregion
 
+        /// <summary>
+        /// Get Access Token
+        /// </summary>
+        /// <param name="model"></param>
+        /// <returns></returns>
+        
         [HttpPost("Auth")]
         public async Task<IActionResult> Jwt([FromBody]TokenRequestViewModel model)
         {
@@ -53,6 +62,17 @@ namespace VMMC.Auth.Web.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Get Roles
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet("Roles")]
+        public async Task<IActionResult> GetRolesAsync()
+        {
+            return this.Ok("value1");
+        }
+
+   
         private async Task<IActionResult> RefreshToken(TokenRequestViewModel model)
         {
             try
@@ -180,6 +200,4 @@ namespace VMMC.Auth.Web.API.Controllers
             }
         }
     }
-
-
 }

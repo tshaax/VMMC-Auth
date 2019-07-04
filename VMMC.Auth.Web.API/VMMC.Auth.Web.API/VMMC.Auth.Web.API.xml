@@ -4,5 +4,121 @@
         <name>VMMC.Auth.Web.API</name>
     </assembly>
     <members>
+        <member name="T:VMMC.Auth.Web.API.Controllers.AccountController">
+            <summary>
+            AccountController
+            </summary>
+            
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Funders},VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Partners},VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.ServiceProviders})">
+            <summary>
+            AccountController
+            </summary>
+            <param name="funderRepo"></param>
+            <param name="partnerRepo"></param>
+            <param name="providerRepo"></param>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.AddFunder(VMMC.Auth.Web.API.Models.Metadata.FunderModel)">
+            <summary>
+            Add Funder 
+            </summary>
+            <param name="funderModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.TokenController.Jwt(VMMC.Auth.Web.API.Models.TokenRequestViewModel)">
+            <summary>
+            Get Access Token
+            </summary>
+            <param name="model"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.TokenController.GetRolesAsync">
+            <summary>
+            Get Roles
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VMMC.Auth.Web.API.Mapping.Mapper">
+            <summary>
+            Mapper
+            </summary>
+        </member>
+        <member name="P:VMMC.Auth.Web.API.Mapping.Mapper.Instance">
+            <summary>
+            Initialise and instance for single pattern
+            </summary>
+        </member>
+        <member name="T:VMMC.Auth.Web.API.Services.GenericRepository`1">
+            <summary>
+            GenericRepository
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.#ctor(VMMC.Auth.Web.API.Db.VMMC_DBContext)">
+            <summary>
+            
+            </summary>
+            <param name="dBContext"></param>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.Create(`0)">
+            <summary>
+            Create
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.Delete(System.Int32)">
+            <summary>
+            Delete
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.GetAll">
+            <summary>
+            GetAll
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.Update(`0)">
+            <summary>
+            Update
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VMMC.Auth.Web.API.Services.IGenericRepository`1">
+            <summary>
+            Generic Repository
+            </summary>
+            <typeparam name="TEntity"></typeparam>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.IGenericRepository`1.GetAll">
+            <summary>
+            IQueryable
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.IGenericRepository`1.Create(`0)">
+            <summary>
+            Create
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.IGenericRepository`1.Update(`0)">
+            <summary>
+            Update
+            </summary>
+            <param name="entity"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Services.IGenericRepository`1.Delete(System.Int32)">
+            <summary>
+            Delete
+            </summary>
+            <param name="id"></param>
+            <returns></returns>
+        </member>
     </members>
 </doc>

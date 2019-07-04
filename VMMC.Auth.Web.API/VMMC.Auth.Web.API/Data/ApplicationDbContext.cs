@@ -26,8 +26,8 @@ namespace VMMC.Auth.Web.API.Data
             modelBuilder.Entity<Token>().ToTable("Tokens");
             modelBuilder.Entity<Token>().Property(i => i.Id).ValueGeneratedOnAdd();
             modelBuilder.Entity<Token>().HasOne(t => t.User).WithMany(u => u.Tokens);
-
-
         }
+
+
     }
 }

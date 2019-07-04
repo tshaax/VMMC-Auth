@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
@@ -11,8 +12,10 @@ using VMMC.Auth.Web.API.Data;
 
 namespace VMMC.Auth.Web.API.Controllers
 {
-    [Route("api/[controller]")]
 
+
+    [EnableCors("AllowOrigin")]
+    [Route("api/[controller]")]
     public class BaseApiController : Controller
     {
 

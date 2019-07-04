@@ -21,6 +21,8 @@ using VMMC.Auth.Web.API.Data;
 using Swashbuckle.AspNetCore.Swagger;
 using System.Reflection;
 using System.IO;
+using VMMC.Auth.Web.API.Db;
+using VMMC.Auth.Web.API.Services;
 
 namespace VMMC.Auth.Web.API
 {
@@ -37,17 +39,32 @@ namespace VMMC.Auth.Web.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddCors(c =>
+            {
+                c.AddPolicy("AllowOrigin", options => 
+                options.AllowAnyOrigin()
+                .AllowAnyHeader().AllowAnyMethod().SetPreflightMaxAge(TimeSpan.FromSeconds(2520)));
+            });
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
+            services.AddDbContext<VMMC_DBContext>(options =>
+            options.UseSqlServer(Configuration.GetConnectionString("Default")));
+
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new Info { Title = "VMMC API", Version = "V1" });
+                c.SwaggerDoc("v1", new Info { Title = "VMMC API", Version = "V1", });
                 // Set the comments path for the Swagger JSON and UI.
                 var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
+                c.AddSecurityDefinition("Bearer", new ApiKeyScheme
+                {
+                    Description = "JWT token example: Bearer {token}",
+                    In = "header",
+                    Type = "apiKey"
+                });
             });
 
             services.AddIdentity<ApplicationUser, IdentityRole>(
@@ -89,12 +106,14 @@ namespace VMMC.Auth.Web.API
                 };
             });
 
+            services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
             services.AddMvc();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.UseCors(opt => opt.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin());
             app.UseSwagger();
 
             app.UseSwaggerUI(c =>
@@ -113,15 +132,15 @@ namespace VMMC.Auth.Web.API
                 app.UseHsts();
             }
                         
-            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            {
-                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-                var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-                dbContext.Database.Migrate();
-                // Seed the Db.
-                DbSeedder.Seed(dbContext, roleManager, userManager);
-            }
+            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            //{
+            //    var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+            //    var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+            //    var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+            //    dbContext.Database.Migrate();
+            //    // Seed the Db.
+            //    DbSeedder.Seed(dbContext, roleManager, userManager);
+            //}
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

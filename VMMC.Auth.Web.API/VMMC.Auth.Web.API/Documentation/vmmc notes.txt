@@ -1,0 +1,36 @@
+-CDC => Funder
+- QC => QA
+- Consent Form => Capture Form
+
+----Users----
+Funder => many to many => IP
+IP => ONE TO MANY User
+
+Request
+- Funder
+- IP
+- social/doctor e.g Role
+
+----Admin function
+ - Form sub menus => Consent Mantain, Followup Maintain
+ - Super Admin * Add maintain funder, IP, service delivery
+
+--------UI
+Dateof birth auto populate age.
+
+Date format dd/mm/yyyy
+
+On consent choose date autopopulate and change to procedure date.
+
+Checkbox for HIV TEST and Agreement
+
+Remove signatures
+put seperator on radiobuttons
+
+hide notes if is none/mild
+
+add text for barcode scanner.
+
+attach file move to consent
+
+followup linked to consent form(search function with name,surname and DOB)
