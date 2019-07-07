@@ -29,14 +29,14 @@ namespace VMMC.Auth.Web.API.Services
         /// </summary>
         /// <param name="entity"></param>
         /// <returns></returns>
-        Task Update(TEntity entity);
+        Task<int> Update(TEntity entity);
 
         /// <summary>
         /// Delete
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        Task Delete(int id);
+        Task<int> Delete(int id);
 
     }
 }

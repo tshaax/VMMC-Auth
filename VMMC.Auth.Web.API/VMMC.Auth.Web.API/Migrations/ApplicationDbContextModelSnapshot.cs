@@ -218,6 +218,89 @@ namespace VMMC.Auth.Web.API.Migrations
                     b.ToTable("Tokens");
                 });
 
+            modelBuilder.Entity("VMMC.Auth.Web.API.Db.Funders", b =>
+                {
+                    b.Property<int>("FunderId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250);
+
+                    b.HasKey("FunderId");
+
+                    b.ToTable("Funders");
+                });
+
+            modelBuilder.Entity("VMMC.Auth.Web.API.Db.Partners", b =>
+                {
+                    b.Property<int>("PartnerId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<int?>("FunderId");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250);
+
+                    b.HasKey("PartnerId");
+
+                    b.HasIndex("FunderId");
+
+                    b.ToTable("Partners");
+                });
+
+            modelBuilder.Entity("VMMC.Auth.Web.API.Db.ServiceProviders", b =>
+                {
+                    b.Property<int>("ProviderId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateCreated")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("date")
+                        .HasDefaultValueSql("(getdate())");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("date");
+
+                    b.Property<string>("ModifiedBy")
+                        .HasMaxLength(150);
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(250);
+
+                    b.Property<int?>("PartnerId");
+
+                    b.HasKey("ProviderId");
+
+                    b.HasIndex("PartnerId");
+
+                    b.ToTable("ServiceProviders");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole")
@@ -269,6 +352,22 @@ namespace VMMC.Auth.Web.API.Migrations
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("VMMC.Auth.Web.API.Db.Partners", b =>
+                {
+                    b.HasOne("VMMC.Auth.Web.API.Db.Funders", "Funder")
+                        .WithMany("Partners")
+                        .HasForeignKey("FunderId")
+                        .HasConstraintName("FK_Partners_Funders");
+                });
+
+            modelBuilder.Entity("VMMC.Auth.Web.API.Db.ServiceProviders", b =>
+                {
+                    b.HasOne("VMMC.Auth.Web.API.Db.Partners", "Partner")
+                        .WithMany("ServiceProviders")
+                        .HasForeignKey("PartnerId")
+                        .HasConstraintName("FK_ServiceDeliveries_Partners");
                 });
 #pragma warning restore 612, 618
         }

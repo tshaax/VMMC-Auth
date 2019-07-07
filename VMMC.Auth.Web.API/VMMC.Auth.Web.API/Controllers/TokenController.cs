@@ -16,6 +16,7 @@ using System.Text;
 using VMMC.Auth.Web.API.Data;
 using Microsoft.AspNetCore.Cors;
 using VMMC.Auth.Web.API.Models.Metadata;
+using VMMC.Auth.Web.API.Db;
 
 namespace VMMC.Auth.Web.API.Controllers
 {
@@ -62,17 +63,6 @@ namespace VMMC.Auth.Web.API.Controllers
             }
         }
 
-        /// <summary>
-        /// Get Roles
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet("Roles")]
-        public async Task<IActionResult> GetRolesAsync()
-        {
-            return this.Ok("value1");
-        }
-
-   
         private async Task<IActionResult> RefreshToken(TokenRequestViewModel model)
         {
             try

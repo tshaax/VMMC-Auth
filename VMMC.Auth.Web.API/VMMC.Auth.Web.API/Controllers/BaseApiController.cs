@@ -18,6 +18,12 @@ namespace VMMC.Auth.Web.API.Controllers
     [Route("api/[controller]")]
     public class BaseApiController : Controller
     {
+        public BaseApiController(ApplicationDbContext dbContext, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
+        {
+            DbContext = dbContext;
+            RoleManager = roleManager;
+            UserManager = userManager;
+        }
 
         #region Constructor
         public BaseApiController(ApplicationDbContext context, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager, IConfiguration configuration)

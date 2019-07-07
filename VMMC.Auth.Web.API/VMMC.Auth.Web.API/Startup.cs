@@ -49,8 +49,6 @@ namespace VMMC.Auth.Web.API
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
-            services.AddDbContext<VMMC_DBContext>(options =>
-            options.UseSqlServer(Configuration.GetConnectionString("Default")));
 
             services.AddSwaggerGen(c =>
             {
@@ -131,16 +129,16 @@ namespace VMMC.Auth.Web.API
             {
                 app.UseHsts();
             }
-                        
-            //using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
-            //{
-            //    var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
-            //    var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-            //    var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
-            //    dbContext.Database.Migrate();
-            //    // Seed the Db.
-            //    DbSeedder.Seed(dbContext, roleManager, userManager);
-            //}
+
+            using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
+            {
+                var dbContext = serviceScope.ServiceProvider.GetService<ApplicationDbContext>();
+                var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
+                var userManager = serviceScope.ServiceProvider.GetService<UserManager<ApplicationUser>>();
+                dbContext.Database.Migrate();
+                // Seed the Db.
+                DbSeedder.Seed(dbContext, roleManager, userManager);
+            }
 
             app.UseHttpsRedirection();
             app.UseAuthentication();

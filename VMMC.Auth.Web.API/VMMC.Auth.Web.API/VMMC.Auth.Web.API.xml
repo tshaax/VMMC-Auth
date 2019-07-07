@@ -4,25 +4,117 @@
         <name>VMMC.Auth.Web.API</name>
     </assembly>
     <members>
-        <member name="T:VMMC.Auth.Web.API.Controllers.AccountController">
+        <member name="T:VMMC.Auth.Web.API.Controllers.FunderController">
             <summary>
             AccountController
             </summary>
             
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Funders},VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Partners},VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.ServiceProviders})">
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Funders})">
             <summary>
             AccountController
             </summary>
             <param name="funderRepo"></param>
-            <param name="partnerRepo"></param>
-            <param name="providerRepo"></param>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.AddFunder(VMMC.Auth.Web.API.Models.Metadata.FunderModel)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.AddFunder(VMMC.Auth.Web.API.Db.Funders)">
             <summary>
             Add Funder 
             </summary>
             <param name="funderModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.GetFunder(System.Int32)">
+            <summary>
+            Get All Funders
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.UpdateFunder(VMMC.Auth.Web.API.Db.Funders)">
+            <summary>
+            Update Funder 
+            </summary>
+            <param name="funderModel"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.DeleteFunder(System.Int32)">
+            <summary>
+            Delete Funder 
+            </summary>
+            <param name="funderModel"></param>
+            <returns></returns>
+        </member>
+        <member name="T:VMMC.Auth.Web.API.Controllers.PartnerController">
+            <summary>
+            PartnerController
+            </summary>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Partners})">
+            <summary>
+            
+            </summary>
+            <param name="repo"></param>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.GetPartners(System.Int32)">
+            <summary>
+            Get All Partners
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.AddPartner(VMMC.Auth.Web.API.Db.Partners)">
+            <summary>
+            Add Partner
+            </summary>
+            <param name="partners"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.UpdatePartner(VMMC.Auth.Web.API.Db.Partners)">
+            <summary>
+            Update Partner
+            </summary>
+            <param name="partners"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.DeletePartner(System.Int32)">
+            <summary>
+            Delete Partner
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="T:VMMC.Auth.Web.API.Controllers.ServiceProviderController">
+            <summary>
+            ServiceProviderController
+            </summary>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.ServiceProviders})">
+            <summary>
+            
+            </summary>
+            <param name="repo"></param>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.GetProviders(System.Int32)">
+            <summary>
+            Get All Partners
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.AddProvider(VMMC.Auth.Web.API.Db.ServiceProviders)">
+            <summary>
+            Add Service Provider
+            </summary>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.UpdateProvider(VMMC.Auth.Web.API.Db.ServiceProviders)">
+            <summary>
+            Update Service Provider
+            </summary>
+            <param name="provider"></param>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.DeleteProvider(System.Int32)">
+            <summary>
+            Delete Service Provider
+            </summary>
             <returns></returns>
         </member>
         <member name="M:VMMC.Auth.Web.API.Controllers.TokenController.Jwt(VMMC.Auth.Web.API.Models.TokenRequestViewModel)">
@@ -32,9 +124,29 @@
             <param name="model"></param>
             <returns></returns>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.TokenController.GetRolesAsync">
+        <member name="T:VMMC.Auth.Web.API.Controllers.UserController">
             <summary>
-            Get Roles
+            UserController
+            </summary>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.UserController.#ctor(VMMC.Auth.Web.API.Data.ApplicationDbContext,Microsoft.AspNetCore.Identity.RoleManager{Microsoft.AspNetCore.Identity.IdentityRole},Microsoft.AspNetCore.Identity.UserManager{VMMC.Auth.DataAccess.Models.ApplicationUser})">
+            <summary>
+            Constructor UserController
+            </summary>
+            <param name="dbContext"></param>
+            <param name="roleManager"></param>
+            <param name="userManager"></param>
+            <param name="repo"></param>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.UserController.GetUsers">
+            <summary>
+            GetUsers
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.UserController.CreateUser(VMMC.Auth.Web.API.Models.Metadata.UserModel)">
+            <summary>
+            CreateUser
             </summary>
             <returns></returns>
         </member>
@@ -48,13 +160,23 @@
             Initialise and instance for single pattern
             </summary>
         </member>
+        <member name="T:VMMC.Auth.Web.API.Models.Metadata.UserRoleModel">
+            <summary>
+            UserRoleModel
+            </summary>
+        </member>
+        <member name="P:VMMC.Auth.Web.API.Models.Metadata.UserRoleModel.RoleName">
+            <summary>
+            RoleName
+            </summary>
+        </member>
         <member name="T:VMMC.Auth.Web.API.Services.GenericRepository`1">
             <summary>
             GenericRepository
             </summary>
             <typeparam name="TEntity"></typeparam>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.#ctor(VMMC.Auth.Web.API.Db.VMMC_DBContext)">
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.#ctor(VMMC.Auth.Web.API.Data.ApplicationDbContext)">
             <summary>
             
             </summary>

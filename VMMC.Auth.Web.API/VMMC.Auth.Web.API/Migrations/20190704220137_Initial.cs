@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace VMMC.Auth.Web.API.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -20,6 +20,22 @@ namespace VMMC.Auth.Web.API.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Funders",
+                columns: table => new
+                {
+                    FunderId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "(getdate())"),
+                    Name = table.Column<string>(maxLength: 250, nullable: true),
+                    LastModified = table.Column<DateTime>(type: "date", nullable: true),
+                    ModifiedBy = table.Column<string>(maxLength: 150, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Funders", x => x.FunderId);
                 });
 
             migrationBuilder.CreateTable(
@@ -72,6 +88,29 @@ namespace VMMC.Auth.Web.API.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Partners",
+                columns: table => new
+                {
+                    PartnerId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 250, nullable: true),
+                    FunderId = table.Column<int>(nullable: true),
+                    LastModified = table.Column<DateTime>(type: "date", nullable: true),
+                    ModifiedBy = table.Column<string>(maxLength: 150, nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Partners", x => x.PartnerId);
+                    table.ForeignKey(
+                        name: "FK_Partners_Funders",
+                        column: x => x.FunderId,
+                        principalTable: "Funders",
+                        principalColumn: "FunderId",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -182,6 +221,29 @@ namespace VMMC.Auth.Web.API.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "ServiceProviders",
+                columns: table => new
+                {
+                    ProviderId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Name = table.Column<string>(maxLength: 250, nullable: true),
+                    PartnerId = table.Column<int>(nullable: true),
+                    ModifiedBy = table.Column<string>(maxLength: 150, nullable: true),
+                    LastModified = table.Column<DateTime>(type: "date", nullable: true),
+                    DateCreated = table.Column<DateTime>(type: "date", nullable: false, defaultValueSql: "(getdate())")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ServiceProviders", x => x.ProviderId);
+                    table.ForeignKey(
+                        name: "FK_ServiceDeliveries_Partners",
+                        column: x => x.PartnerId,
+                        principalTable: "Partners",
+                        principalColumn: "PartnerId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -208,6 +270,16 @@ namespace VMMC.Auth.Web.API.Migrations
                 name: "IX_AspNetUserRoles_RoleId",
                 table: "AspNetUserRoles",
                 column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Partners_FunderId",
+                table: "Partners",
+                column: "FunderId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ServiceProviders_PartnerId",
+                table: "ServiceProviders",
+                column: "PartnerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tokens_UserId",
@@ -245,13 +317,22 @@ namespace VMMC.Auth.Web.API.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "ServiceProviders");
+
+            migrationBuilder.DropTable(
                 name: "Tokens");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
+                name: "Partners");
+
+            migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "Funders");
         }
     }
 }
