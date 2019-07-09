@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using VMMC.Auth.Web.API.Db;
 using VMMC.Auth.Web.API.Models.Metadata;
+using VMMC.Auth.Web.API.ScaffoldDb;
 
 namespace VMMC.Auth.Web.API.Mapping
 {

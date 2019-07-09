@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using VMMC.Auth.DataAccess.Models;
 using VMMC.Auth.Web.API.Data;
-using VMMC.Auth.Web.API.Db;
 using VMMC.Auth.Web.API.Models.Metadata;
+using VMMC.Auth.Web.API.ScaffoldDb;
 using VMMC.Auth.Web.API.Services;
 
 namespace VMMC.Auth.Web.API.Controllers
@@ -18,8 +18,7 @@ namespace VMMC.Auth.Web.API.Controllers
    
     public class UserController : BaseApiController
     {
-        private readonly IGenericRepository<Users> _Repo;
-
+   
         /// <summary>
         /// Constructor UserController
         /// </summary>
@@ -31,17 +30,9 @@ namespace VMMC.Auth.Web.API.Controllers
                                                 UserManager<ApplicationUser> userManager)
             : base(dbContext, roleManager, userManager) {}
 
+
         /// <summary>
-        /// GetUsers
-        /// </summary>
-        /// <returns></returns>
-        [HttpGet]
-        public IActionResult GetUsers()
-        {
-            return this.Ok( this.DbContext.Set<ApplicationUser>());
-        }
-        /// <summary>
-        /// CreateUser
+        /// Add a User
         /// </summary>
         /// <returns></returns>
         [HttpPost]

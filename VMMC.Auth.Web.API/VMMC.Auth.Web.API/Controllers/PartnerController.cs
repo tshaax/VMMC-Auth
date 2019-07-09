@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using VMMC.Auth.Web.API.Db;
+using VMMC.Auth.Web.API.ScaffoldDb;
 using VMMC.Auth.Web.API.Services;
 
 namespace VMMC.Auth.Web.API.Controllers
@@ -33,8 +33,8 @@ namespace VMMC.Auth.Web.API.Controllers
         [HttpGet("Funder/{id}")]
         public IActionResult GetPartners([FromRoute] int id)
         {
-            return id == 0 ? this.Ok(_Repo.GetAll().Where(w => !w.IsDeleted)) 
-                : this.Ok(_Repo.GetAll().Where(w => w.FunderId == id && !w.IsDeleted));
+            return id == 0 ? this.Ok(_Repo.GetAll().Where(w => !w.IsDeleted.Value)) 
+                : this.Ok(_Repo.GetAll().Where(w => w.FunderId == id && !w.IsDeleted.Value));
 
         }
 

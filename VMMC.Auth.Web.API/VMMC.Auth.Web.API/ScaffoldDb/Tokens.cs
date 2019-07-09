@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace VMMC.Auth.Web.API.Db
+namespace VMMC.Auth.Web.API.ScaffoldDb
 {
     public partial class Tokens
     {

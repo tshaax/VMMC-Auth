@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using VMMC.Auth.Web.API.Data;
-using VMMC.Auth.Web.API.Db;
+using VMMC.Auth.Web.API.ScaffoldDb;
 
 namespace VMMC.Auth.Web.API.Services
 {
@@ -15,13 +15,13 @@ namespace VMMC.Auth.Web.API.Services
     public class GenericRepository<TEntity> : IGenericRepository<TEntity>
         where TEntity : class
     {
-        private readonly ApplicationDbContext _DbContext;
+        private readonly VMMC_DBContext _DbContext;
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="dBContext"></param>
-        public GenericRepository(ApplicationDbContext dBContext)
+        public GenericRepository(VMMC_DBContext dBContext)
         {
             this._DbContext = dBContext;
         }

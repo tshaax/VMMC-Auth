@@ -16,7 +16,6 @@ using System.Text;
 using VMMC.Auth.Web.API.Data;
 using Microsoft.AspNetCore.Cors;
 using VMMC.Auth.Web.API.Models.Metadata;
-using VMMC.Auth.Web.API.Db;
 
 namespace VMMC.Auth.Web.API.Controllers
 {

@@ -1,29 +1,26 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 
-namespace VMMC.Auth.Web.API.Db
+namespace VMMC.Auth.Web.API.ScaffoldDb
 {
     public partial class Partners
     {
         public Partners()
         {
             ServiceProviders = new HashSet<ServiceProviders>();
+            Users = new HashSet<Users>();
         }
 
         public int PartnerId { get; set; }
         public string Name { get; set; }
         public int? FunderId { get; set; }
-        [JsonIgnore]
         public DateTime? LastModified { get; set; }
-        [JsonIgnore]
         public string ModifiedBy { get; set; }
-        [JsonIgnore]
         public DateTime DateCreated { get; set; }
-        [JsonIgnore]
-        public bool IsDeleted { get; set; }
-        [JsonIgnore]
+        public bool? IsDeleted { get; set; }
+
         public Funders Funder { get; set; }
         public ICollection<ServiceProviders> ServiceProviders { get; set; }
+        public ICollection<Users> Users { get; set; }
     }
 }

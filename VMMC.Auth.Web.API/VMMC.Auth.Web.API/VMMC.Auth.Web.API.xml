@@ -4,19 +4,48 @@
         <name>VMMC.Auth.Web.API</name>
     </assembly>
     <members>
+        <member name="T:VMMC.Auth.Web.API.Controllers.AccountController">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.GetUsers">
+            <summary>
+            Get All Users
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.GetUsersByTypeId(System.Int32,System.Int32)">
+            <summary>
+            Get All Users by funder id
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.GetAccTypes">
+            <summary>
+            Get All Account Types
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:VMMC.Auth.Web.API.Controllers.AccountController.GetAccTypesById(System.Int32)">
+            <summary>
+            Get All Account Types by Funder
+            </summary>
+            <returns></returns>
+        </member>
         <member name="T:VMMC.Auth.Web.API.Controllers.FunderController">
             <summary>
             AccountController
             </summary>
             
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Funders})">
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.ScaffoldDb.Funders})">
             <summary>
             AccountController
             </summary>
             <param name="funderRepo"></param>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.AddFunder(VMMC.Auth.Web.API.Db.Funders)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.AddFunder(VMMC.Auth.Web.API.ScaffoldDb.Funders)">
             <summary>
             Add Funder 
             </summary>
@@ -29,7 +58,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.UpdateFunder(VMMC.Auth.Web.API.Db.Funders)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.FunderController.UpdateFunder(VMMC.Auth.Web.API.ScaffoldDb.Funders)">
             <summary>
             Update Funder 
             </summary>
@@ -48,7 +77,7 @@
             PartnerController
             </summary>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.Partners})">
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.ScaffoldDb.Partners})">
             <summary>
             
             </summary>
@@ -60,14 +89,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.AddPartner(VMMC.Auth.Web.API.Db.Partners)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.AddPartner(VMMC.Auth.Web.API.ScaffoldDb.Partners)">
             <summary>
             Add Partner
             </summary>
             <param name="partners"></param>
             <returns></returns>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.UpdatePartner(VMMC.Auth.Web.API.Db.Partners)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.PartnerController.UpdatePartner(VMMC.Auth.Web.API.ScaffoldDb.Partners)">
             <summary>
             Update Partner
             </summary>
@@ -85,7 +114,7 @@
             ServiceProviderController
             </summary>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.Db.ServiceProviders})">
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.#ctor(VMMC.Auth.Web.API.Services.IGenericRepository{VMMC.Auth.Web.API.ScaffoldDb.ServiceProviders})">
             <summary>
             
             </summary>
@@ -97,14 +126,14 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.AddProvider(VMMC.Auth.Web.API.Db.ServiceProviders)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.AddProvider(VMMC.Auth.Web.API.ScaffoldDb.ServiceProviders)">
             <summary>
             Add Service Provider
             </summary>
             <param name="provider"></param>
             <returns></returns>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.UpdateProvider(VMMC.Auth.Web.API.Db.ServiceProviders)">
+        <member name="M:VMMC.Auth.Web.API.Controllers.ServiceProviderController.UpdateProvider(VMMC.Auth.Web.API.ScaffoldDb.ServiceProviders)">
             <summary>
             Update Service Provider
             </summary>
@@ -138,15 +167,9 @@
             <param name="userManager"></param>
             <param name="repo"></param>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Controllers.UserController.GetUsers">
-            <summary>
-            GetUsers
-            </summary>
-            <returns></returns>
-        </member>
         <member name="M:VMMC.Auth.Web.API.Controllers.UserController.CreateUser(VMMC.Auth.Web.API.Models.Metadata.UserModel)">
             <summary>
-            CreateUser
+            Add a User
             </summary>
             <returns></returns>
         </member>
@@ -176,7 +199,7 @@
             </summary>
             <typeparam name="TEntity"></typeparam>
         </member>
-        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.#ctor(VMMC.Auth.Web.API.Data.ApplicationDbContext)">
+        <member name="M:VMMC.Auth.Web.API.Services.GenericRepository`1.#ctor(VMMC.Auth.Web.API.ScaffoldDb.VMMC_DBContext)">
             <summary>
             
             </summary>

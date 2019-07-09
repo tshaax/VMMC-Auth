@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
-using VMMC.Auth.Web.API.Db;
+using VMMC.Auth.Web.API.ScaffoldDb;
 using VMMC.Auth.Web.API.Services;
 
 namespace VMMC.Auth.Web.API.Controllers
@@ -34,8 +34,8 @@ namespace VMMC.Auth.Web.API.Controllers
         [HttpGet("Partner/{id}")]
         public IActionResult GetProviders([FromRoute] int id)
         {
-            return id == 0 ? this.Ok(_Repo.GetAll().Where(w=> !w.IsDeleted))
-                : this.Ok(_Repo.GetAll().Where(w => w.PartnerId == id && !w.IsDeleted));
+            return id == 0 ? this.Ok(_Repo.GetAll().Where(w=> !w.IsDeleted.Value))
+                : this.Ok(_Repo.GetAll().Where(w => w.PartnerId == id && !w.IsDeleted.Value));
         }
 
         /// <summary>
